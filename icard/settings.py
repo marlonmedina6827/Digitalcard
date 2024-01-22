@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 import datetime
 from pathlib import Path
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'users',
+    'categories',
 ]
 
 MIDDLEWARE = [
@@ -129,6 +131,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -145,3 +150,4 @@ CORS_ALLOW_CREDDENTIALS = True
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=120)
 }
+
