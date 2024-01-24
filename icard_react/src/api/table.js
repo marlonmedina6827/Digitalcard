@@ -79,3 +79,16 @@ export async function deleteTableApi(id, token) {
         throw error;
     }
 }
+
+export async function getTableApi(idTable) {
+    try {
+        const url = `${BASE_API}/api/tables/${idTable}/`;
+
+        const response = await fetch(url);
+        const result = await response.json();
+        return result;
+
+    } catch (error) {
+        throw error;
+    }
+}
