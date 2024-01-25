@@ -29,6 +29,10 @@
         &.pending {
             fill: rgb(0, 153, 255);
         }
+
+        &.pending-payment{
+            fill: #008000
+        }
     }
 
     
