@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Button, Icon } from "semantic-ui-react";
 import { map } from "lodash";
+import QRCode from "qrcode.react"
+import { ModalBasic } from "../../../Common"
 import "./TableTablesAdmin.scss";
 
 export function TableTablesAdmin(props) {
     const { tables, updateTable, deleteTable } = props;
+    const [showModal, setShowModal] = useState(false)
+    const [contentModal, setContentModal] = useState(null)
+
+    const openCloseModal = () => setShowModal((prev) => !prev)
+
+    const showQr = (table) => {
+
+        setContentModal(
+        <div style={{textAlign: "center"}}>
+            <QRCode value={`${window.location.origin}/client/${table.number}`} />
+        </div>
+        );
+
+        openCloseModal();
+    }
 
 
   return (
+    <>
     <Table className='table-tables-admin'>
         <Table.Header>
             <Table.Row>
@@ -21,19 +39,32 @@ export function TableTablesAdmin(props) {
                 <Table.Row key={index} >
                     <Table.Cell>{tables.number}</Table.Cell>
 
-                    <Actions table={tables} updateTable={updateTable} deleteTable={deleteTable} />
+                    <Actions table={tables} updateTable={updateTable} deleteTable={deleteTable} showQr={showQr} />
                 </Table.Row>
             ))}
         </Table.Body>
     </Table>
+
+    <ModalBasic 
+    show={showModal}
+    onClose={openCloseModal}
+    title="Codigo QR"
+    size="mini"
+    children={contentModal}
+    />
+    </>
   )
 }
 
 function Actions(props) {
-    const { table, updateTable, deleteTable } = props;
+    const { table, updateTable, deleteTable, showQr } = props;
 
     return (
         <Table.Cell textAlign='right'>
+            <Button icon onClick={() => showQr(table)}>
+                <Icon name='qrcode' />
+            </Button>
+
             <Button icon onClick={() => updateTable(table)}>
                 <Icon name='pencil' />
             </Button>
