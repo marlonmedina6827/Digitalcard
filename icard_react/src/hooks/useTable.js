@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { getTablesApi, AddTableApi, updateTableApi, deleteTableApi, getTableApi } from "../api/table";
+import { size } from "lodash";
+import { getTablesApi, AddTableApi, updateTableApi, deleteTableApi, getTableApi, getTableByNumberApi } from "../api/table";
 import { useAuth } from "./";
 
 export function useTable() {
@@ -71,6 +72,25 @@ export function useTable() {
         }
     }
 
+    const isExistTable = async (tableNumber) => {
+        try {
+            const response = await getTableByNumberApi(tableNumber)
+            if(size(response) > 0) return true
+            throw Error()
+        } catch (error) {
+            setError(error);
+        }
+    }
+
+    const getTableByNumber = async (tableNumber) => {
+        try {
+            const response = await getTableByNumberApi(tableNumber)
+            return response;
+        } catch (error) {
+            setError(error);
+        }
+    }
+
     return{
         loading,
         error,
@@ -81,5 +101,7 @@ export function useTable() {
         updateTable,
         deleteTable,
         getTable,
+        isExistTable,
+        getTableByNumber,
     }
 }
